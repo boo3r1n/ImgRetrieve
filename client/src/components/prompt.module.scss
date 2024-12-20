@@ -1,0 +1,31 @@
+.card {
+  height: auto;
+  margin: 0 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  .head {
+    display: flex;
+    .title {
+      font-size: 20px;
+      font-family: "Times New Roman", Times, serif;
+      color: #2e2e2e;
+      font-weight: bold;
+      align-items: center;
+    }
+    .button{
+        margin-left: auto;
+        background-color: #648a68;
+        border: none;
+        // border-radius: 5px;
+        color: white;
+        padding: 5px 10px;
+    }
+  }
+  .input{
+    margin: 10px 0;
+  }
+  .expContainer{
+    color: gray;
+  }
+}

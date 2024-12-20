@@ -13,19 +13,21 @@
       font-weight: bold;
       align-items: center;
     }
-    .button{
-        margin-left: auto;
-        background-color: #648a68;
-        border: none;
-        // border-radius: 5px;
-        color: white;
-        padding: 5px 10px;
+    .button {
+      margin-left: auto;
+      background-color: #648a68;
+      border: none;
+      // border-radius: 5px;
+      color: white;
+      padding: 5px 10px;
     }
   }
-  .input{
+  .genPrompt {
     margin: 10px 0;
-  }
-  .expContainer{
-    color: gray;
+    display: flex;
+    flex-direction: column;
+    .input {
+      width: 100%;
+    }
   }
 }

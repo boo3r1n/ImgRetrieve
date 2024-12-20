@@ -11,19 +11,50 @@ import * as echarts from "echarts";
 export default function ResultCard({ prompt }) {
   const [imgResult, setImgResult] = useState("");
   const [topColors, setTopColors] = useState([]);
-  const [reasons, setReasons] = useState(
-    "Decorated tree, presents, red and gold ornaments, fireplace, snowflakes, garlands, candlelight"
-  );
+  const [newPrompt, setNewPrompt] = useState("");
+  const [colorInput, setColorInput] = useState("");
+  const [newColorPrompt, setNewColorPrompt] = useState("");
+
+  const handleColorPromptChange = (value) => {
+    setColorInput(value);
+  };
+
+  const genNewColors = () => {
+    setNewColorPrompt(colorInput);
+  };
+
+  useEffect(() => {
+    if (newColorPrompt === "") {
+      return;
+    }
+    console.log("Color Prompt changed:", newColorPrompt);
+    console.log("Current Colors:", topColors.toString());
+    axios
+      .post("http://127.0.0.1:5050/new-colors", {
+        prompt: newColorPrompt,
+        color_palette: topColors.toString(),
+      })
+      .then((response) => {
+        const { new_colors } = response.data;
+        setTopColors(new_colors);
+        console.log("New colors:", new_colors);
+      })
+      .catch((error) => {
+        console.error("Error generating new colors:", error);
+      });
+  }, [newColorPrompt]);
 
   useEffect(() => {
     console.log("Prompt changed!!!!", prompt);
     axios
       .post("http://127.0.0.1:5050/text-to-image", { text: prompt })
       .then((response) => {
-        const { image_url, top_colors } = response.data;
+        const { image_url, top_colors, detailed_description } = response.data;
         setImgResult(image_url);
         setTopColors(top_colors);
+        setNewPrompt(detailed_description);
         console.log("Top colors:", top_colors);
+        console.log("Detailed description:", detailed_description);
       })
       .catch((error) => {
         console.error("Error fetching image:", error);
@@ -254,10 +285,23 @@ export default function ResultCard({ prompt }) {
         </div>
         <div className={styles.colorsContainer}>
           <div className={styles.palette}>
+            <div className={styles.title}>Customization</div>
+            <Button
+              type="text"
+              className={styles.button}
+              onClick={genNewColors}
+            >
+              Regenerate
+            </Button>
+          </div>
+          <Input
+            className={styles.input}
+            allowClear
+            placeholder="Example: I like more blue."
+            onChange={handleColorPromptChange}
+          />
+          <div className={styles.palette}>
             <div className={styles.title}>Color Palette</div>
-            {/* <Button type="text" className={styles.button}>
-              Copy
-            </Button> */}
           </div>
           <div className={styles.colorItems}>
             {topColors ? (
@@ -276,9 +320,9 @@ export default function ResultCard({ prompt }) {
             )}
           </div>
           <div className={styles.palette}>
-            <div className={styles.title}>Reasons</div>
+            <div className={styles.title}>Detailed Description</div>
           </div>
-          <div className={styles.reasonContainer}>{reasons}</div>
+          <div className={styles.reasonContainer}>{newPrompt}</div>
         </div>
       </div>
       <div className={styles.chartContainer}>

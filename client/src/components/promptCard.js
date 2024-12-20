@@ -3,6 +3,7 @@ import styles from "./prompt.module.scss";
 import { Button, Input } from "@arco-design/web-react";
 import { useState } from "react";
 import axios from "axios";
+import { IconSend } from "@arco-design/web-react/icon";
 
 export default function PromptCard({ prompt, onPromptChange }) {
   const [inputText, setInputText] = useState("");
@@ -25,14 +26,14 @@ export default function PromptCard({ prompt, onPromptChange }) {
           Generate
         </Button>
       </div>
-      <Input
-        className={styles.input}
-        allowClear
-        placeholder="Enter something. For example: A cat"
-        onChange={handleInputChange}
-      />
-      <div className={styles.expContainer}>
-        Examples: A Beautiful Sunset, The Flower Girl
+      <div className={styles.genPrompt}>
+        <Input
+          className={styles.input}
+          allowClear
+          placeholder="Example: A cat"
+          onChange={handleInputChange}
+        />
+  
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
-client/.DS_Store
 server/static/imgs
 server/CLIP-ViT-B-32-laion2B-s34B-b79K
 client/node_modules
 /.gitattributes
-/.DS_Store
+.DS_Store
